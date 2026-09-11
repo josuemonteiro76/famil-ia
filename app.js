@@ -1,29 +1,38 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, orderBy, serverTimestamp } 
 from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// ====> COLE AQUI SUAS CREDENCIAIS DO FIREBASE <====
+// ====> ATENÇÃO: COLE AQUI SUAS CREDENCIAIS DO FIREBASE <====
+// Se deixar com "SUA_API_KEY", o aplicativo vai rodar visualmente, mas não vai salvar nada.
 const firebaseConfig = {
-  apiKey: "AIzaSyAe1MszEPOYDrK6p7D3ytYz72r82ovGfts",
-  authDomain: "famil-ia-51cd7.firebaseapp.com",
-  projectId: "famil-ia-51cd7",
-  storageBucket: "famil-ia-51cd7.firebasestorage.app",
-  messagingSenderId: "1063653704238",
-  appId: "1:1063653704238:web:92c692f63a9eb7378615bf"
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_PROJETO.firebaseapp.com",
+    projectId: "SEU_PROJETO",
+    storageBucket: "SEU_PROJETO.appspot.com",
+    messagingSenderId: "ID",
+    appId: "APP_ID"
 };
 
-let db;
+// 1. Inicia o Banco de Dados com Proteção
+let db = null;
 try {
-    const app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
+    // Só tenta conectar se o usuário alterou a chave padrão
+    if (firebaseConfig.apiKey !== "SUA_API_KEY") {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+    } else {
+        console.warn("Firebase não configurado. Adicione suas credenciais.");
+    }
 } catch (error) {
-    M.toast({html: 'Erro Firebase: Verifique as credenciais no app.js!', classes: 'red', displayLength: 5000});
+    console.error("Erro ao iniciar Firebase:", error);
 }
 
-// Inicializa componentes do Materialize (Modais e inputs)
-document.addEventListener('DOMContentLoaded', function() {
-    M.Modal.init(document.querySelectorAll('.modal'));
-});
+// ==========================================
+// CORREÇÃO: Inicializa o Materialize direto (sem DOMContentLoaded)
+// Como usamos type="module", o HTML já está pronto neste ponto.
+// ==========================================
+M.Modal.init(document.querySelectorAll('.modal'));
+M.updateTextFields();
 
 // Navegação e Controle de Abas
 let currentTab = 'view-agenda';
@@ -33,9 +42,14 @@ const appTitle = document.getElementById('app-title');
 
 navItems.forEach(item => {
     item.addEventListener('click', (e) => {
+        // Previne comportamento padrão de links
+        e.preventDefault();
+        
+        // Remove 'active' de todos
         navItems.forEach(n => n.classList.remove('active'));
         views.forEach(v => v.classList.remove('active'));
         
+        // Adiciona 'active' na aba clicada
         item.classList.add('active');
         currentTab = item.dataset.target;
         document.getElementById(currentTab).classList.add('active');
@@ -44,7 +58,8 @@ navItems.forEach(item => {
 });
 
 // Lógica do Modal Universal (Botão Flutuante +)
-const modalAdd = M.Modal.getInstance(document.getElementById('modal-add'));
+const modalElement = document.getElementById('modal-add');
+const modalAdd = M.Modal.getInstance(modalElement);
 const modalTitle = document.getElementById('modal-title');
 const modalInput = document.getElementById('modal-input');
 const modalDateWrapper = document.getElementById('modal-date-wrapper');
@@ -63,7 +78,7 @@ document.getElementById('main-fab').addEventListener('click', () => {
         modalTitle.innerText = 'Nova Tarefa';
         modalDateWrapper.style.display = 'none';
     } else if(currentTab === 'view-compras') {
-        modalTitle.innerText = 'Novo Item de Compra';
+        modalTitle.innerText = 'Novo Item';
         modalDateWrapper.style.display = 'none';
     } else if(currentTab === 'view-memo') {
         modalTitle.innerText = 'Nova Nota';
@@ -72,6 +87,8 @@ document.getElementById('main-fab').addEventListener('click', () => {
     
     M.updateTextFields();
     modalAdd.open();
+    
+    // Foca no input após a animação do modal
     setTimeout(() => modalInput.focus(), 300);
 });
 
@@ -80,6 +97,12 @@ btnSave.addEventListener('click', async () => {
     const texto = modalInput.value.trim();
     if (!texto) {
         M.toast({html: 'O campo não pode estar vazio!', classes: 'red rounded'});
+        return;
+    }
+
+    if (!db) {
+        M.toast({html: 'Configure as chaves do Firebase primeiro!', classes: 'orange darken-3 rounded'});
+        modalAdd.close();
         return;
     }
 
@@ -94,16 +117,17 @@ btnSave.addEventListener('click', async () => {
             await addDoc(collection(db, "agenda"), { texto, dataIso: modalDate.value, criadoEm: serverTimestamp() });
         }
         modalAdd.close();
-        M.toast({html: 'Adicionado com sucesso!', classes: 'green rounded'});
+        M.toast({html: 'Adicionado!', classes: 'green rounded'});
     } catch (e) {
-        M.toast({html: 'Erro ao salvar. Sem internet?', classes: 'red rounded'});
+        console.error(e);
+        M.toast({html: 'Erro de permissão ou conexão.', classes: 'red rounded'});
     }
 });
 
 // ==========================================
 // TO-DO, COMPRAS E MEMOS (Tempo Real)
 // ==========================================
-if(db) {
+if (db) {
     // To-Do
     onSnapshot(query(collection(db, "tarefas"), orderBy("criadoEm", "desc")), (snap) => {
         const pendentes = document.getElementById('todo-list-pendentes');
@@ -159,9 +183,12 @@ if(db) {
                         await deleteDoc(doc(db, colName, id));
                     }
                 }
-            } catch (err) { M.toast({html: 'Erro ao processar', classes: 'red rounded'}); }
+            } catch (err) { M.toast({html: 'Erro ao excluir', classes: 'red rounded'}); }
         }
     });
+} else {
+    // Mensagem caso não tenha configurado o DB ainda e tente usar a lista
+    document.getElementById('views-container').innerHTML += `<div style="padding: 20px; text-align: center; color: #d32f2f;"><strong>Atenção:</strong> Banco de dados não conectado. Verifique suas credenciais no app.js</div>`;
 }
 
 // ==========================================
@@ -170,15 +197,18 @@ if(db) {
 let dataRef = new Date();
 let eventosAg = [];
 
-if(db) {
+if (db) {
     onSnapshot(collection(db, "agenda"), (snap) => {
         eventosAg = snap.docs.map(d => ({id: d.id, ...d.data()}));
         renderAgenda();
     });
+} else {
+    renderAgenda(); // Renderiza vazio para evitar tela em branco
 }
 
 function renderAgenda() {
     const cont = document.getElementById('agenda-container');
+    if (!cont) return;
     cont.innerHTML = '';
     
     const dom = new Date(dataRef);
@@ -216,9 +246,11 @@ function renderAgenda() {
 // Detecção de Deslize (Swipe)
 let touchX = 0;
 const agendaCont = document.getElementById('view-agenda');
-agendaCont.addEventListener('touchstart', e => touchX = e.changedTouches[0].screenX, {passive: true});
-agendaCont.addEventListener('touchend', e => {
-    const fimX = e.changedTouches[0].screenX;
-    if(fimX < touchX - 50) { dataRef.setDate(dataRef.getDate() + 7); renderAgenda(); }
-    if(fimX > touchX + 50) { dataRef.setDate(dataRef.getDate() - 7); renderAgenda(); }
-}, {passive: true});
+if (agendaCont) {
+    agendaCont.addEventListener('touchstart', e => touchX = e.changedTouches[0].screenX, {passive: true});
+    agendaCont.addEventListener('touchend', e => {
+        const fimX = e.changedTouches[0].screenX;
+        if(fimX < touchX - 50) { dataRef.setDate(dataRef.getDate() + 7); renderAgenda(); }
+        if(fimX > touchX + 50) { dataRef.setDate(dataRef.getDate() - 7); renderAgenda(); }
+    }, {passive: true});
+}
