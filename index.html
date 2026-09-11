@@ -2,21 +2,67 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarefas da Família</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Organizador Familiar</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>📋 Tarefas da Família</h1>
-        <form id="todo-form">
-            <input type="text" id="todo-input" placeholder="O que precisa ser feito?" required autocomplete="off">
-            <button type="submit">Adicionar</button>
-        </form>
-        <ul id="todo-list"></ul>
+    <!-- TELA 1: AGENDA -->
+    <div id="view-agenda" class="view active">
+        <div class="header">
+            <h2>📅 <span id="mes-ano-agenda">Semana</span></h2>
+            <button class="btn-novo" id="btn-novo-evento">+ Evento</button>
+        </div>
+        <!-- O container onde capturamos o swipe -->
+        <div id="agenda-container">
+            <!-- Os 7 dias serão injetados aqui via JavaScript -->
+        </div>
     </div>
+
+    <!-- TELA 2: TO-DO LIST -->
+    <div id="view-todo" class="view">
+        <div class="header">
+            <h2>✅ Tarefas</h2>
+            <button class="btn-novo" id="btn-nova-tarefa">+ Nova</button>
+        </div>
+        <div class="list-container">
+            <h3>Pendentes</h3>
+            <ul id="todo-list-pendentes"></ul>
+            <h3 class="mt-4">Concluídas</h3>
+            <ul id="todo-list-concluidas" class="concluidas"></ul>
+        </div>
+    </div>
+
+    <!-- TELA 3: COMPRAS -->
+    <div id="view-compras" class="view">
+        <div class="header">
+            <h2>🛒 Lista de Compras</h2>
+            <button class="btn-novo" id="btn-nova-compra">+ Novo</button>
+        </div>
+        <div class="list-container">
+            <ul id="compras-list"></ul>
+        </div>
+    </div>
+
+    <!-- TELA 4: MEMO -->
+    <div id="view-memo" class="view">
+        <div class="header">
+            <h2>📝 Bloco de Notas</h2>
+            <button class="btn-novo" id="btn-novo-memo">+ Nota</button>
+        </div>
+        <div class="list-container">
+            <ul id="memo-list"></ul>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO INFERIOR -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active" data-target="view-agenda">📅<br><span>Agenda</span></button>
+        <button class="nav-btn" data-target="view-todo">✅<br><span>To-Do</span></button>
+        <button class="nav-btn" data-target="view-compras">🛒<br><span>Compras</span></button>
+        <button class="nav-btn" data-target="view-memo">📝<br><span>Memo</span></button>
+    </nav>
     
-    <!-- O script é carregado como módulo para suportar o Firebase -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
