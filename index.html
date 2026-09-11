@@ -6,90 +6,104 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" content="#ffffff">
-    <title>Organizador Google</title>
+    <title>Organizador Pessoal</title>
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="white z-depth-1 top-nav">
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo center blue-text text-darken-2" id="app-title">Agenda</a>
-        </div>
-    </nav>
-
-    <div id="views-container">
-        <!-- AGENDA -->
-        <div id="view-agenda" class="view active">
-            <div class="center-align" style="padding: 10px 0;">
-                <h5 class="grey-text text-darken-2" id="mes-ano-agenda" style="margin: 0; font-weight: 500;">Semana</h5>
-            </div>
-            <div id="agenda-container"></div>
-        </div>
-
-        <!-- TO-DO -->
-        <div id="view-todo" class="view">
-            <ul class="collection with-header z-depth-1" style="margin: 10px; border: none; border-radius: 12px;">
-                <li class="collection-header"><h5>Pendentes</h5></li>
-                <div id="todo-list-pendentes"></div>
-                <li class="collection-header" style="margin-top: 20px;"><h5>Concluídas</h5></li>
-                <div id="todo-list-concluidas" class="concluidas"></div>
-            </ul>
-        </div>
-
-        <!-- COMPRAS -->
-        <div id="view-compras" class="view">
-            <ul class="collection z-depth-1" id="compras-list" style="margin: 10px; border: none; border-radius: 12px;"></ul>
-        </div>
-
-        <!-- MEMO -->
-        <div id="view-memo" class="view">
-            <div class="row" id="memo-list" style="margin: 10px;"></div>
-        </div>
-    </div>
-
-    <!-- BOTÃO FLUTUANTE -->
-    <div class="fixed-action-btn">
-        <button id="main-fab" class="btn-floating btn-large blue darken-2 waves-effect waves-light shadow-3">
-            <i class="large material-icons">add</i>
+    <!-- TELA DE LOGIN -->
+    <div id="login-screen">
+        <i class="material-icons blue-text text-darken-2" style="font-size: 80px; margin-bottom: 20px;">account_circle</i>
+        <h4 class="grey-text text-darken-3">Organizador</h4>
+        <p class="grey-text">Faça login para acessar seus dados pessoais</p>
+        <button id="btn-login" class="btn-large blue darken-2 waves-effect waves-light" style="margin-top: 30px; border-radius: 30px;">
+            Entrar com Google
         </button>
     </div>
 
-    <!-- NAVEGAÇÃO INFERIOR -->
-    <div class="bottom-nav z-depth-3">
-        <a href="#!" class="nav-item active" data-target="view-agenda" data-title="Agenda">
-            <i class="material-icons">event</i><span>Agenda</span>
-        </a>
-        <a href="#!" class="nav-item" data-target="view-todo" data-title="Tarefas">
-            <i class="material-icons">check_circle</i><span>Tarefas</span>
-        </a>
-        <a href="#!" class="nav-item" data-target="view-compras" data-title="Compras">
-            <i class="material-icons">shopping_cart</i><span>Compras</span>
-        </a>
-        <a href="#!" class="nav-item" data-target="view-memo" data-title="Notas">
-            <i class="material-icons">sticky_note_2</i><span>Notas</span>
-        </a>
-    </div>
-
-    <!-- MODAL DE ADIÇÃO -->
-    <div id="modal-add" class="modal bottom-sheet">
-        <div class="modal-content">
-            <h5 id="modal-title">Nova Tarefa</h5>
-            <div class="input-field" id="modal-date-wrapper" style="display: none;">
-                <input id="modal-date" type="date">
-                <label for="modal-date" class="active">Data</label>
+    <!-- APLICATIVO PRINCIPAL (Oculto até fazer login) -->
+    <div id="main-app" style="display: none;">
+        <nav class="white z-depth-1 top-nav">
+            <div class="nav-wrapper" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+                <span class="brand-logo blue-text text-darken-2" id="app-title" style="position: static; font-size: 1.5rem;">Agenda</span>
+                <!-- Botão de Sair (Logout) -->
+                <i class="material-icons grey-text" id="btn-logout" style="cursor: pointer;">exit_to_app</i>
             </div>
-            <div class="input-field">
-                <input id="modal-input" type="text" autocomplete="off">
-                <label for="modal-input">O que deseja adicionar?</label>
+        </nav>
+
+        <div id="views-container">
+            <!-- AGENDA -->
+            <div id="view-agenda" class="view active">
+                <div class="center-align" style="padding: 10px 0;">
+                    <h5 class="grey-text text-darken-2" id="mes-ano-agenda" style="margin: 0; font-weight: 500;">Semana</h5>
+                </div>
+                <div id="agenda-container"></div>
+            </div>
+
+            <!-- TO-DO -->
+            <div id="view-todo" class="view">
+                <ul class="collection with-header z-depth-1" style="margin: 10px; border: none; border-radius: 12px;">
+                    <li class="collection-header"><h5>Pendentes</h5></li>
+                    <div id="todo-list-pendentes"></div>
+                    <li class="collection-header" style="margin-top: 20px;"><h5>Concluídas</h5></li>
+                    <div id="todo-list-concluidas" class="concluidas"></div>
+                </ul>
+            </div>
+
+            <!-- COMPRAS -->
+            <div id="view-compras" class="view">
+                <ul class="collection z-depth-1" id="compras-list" style="margin: 10px; border: none; border-radius: 12px;"></ul>
+            </div>
+
+            <!-- MEMO -->
+            <div id="view-memo" class="view">
+                <div class="row" id="memo-list" style="margin: 10px;"></div>
             </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
-            <button id="btn-save" class="waves-effect waves-blue blue white-text btn-flat" style="border-radius: 20px; margin-right: 15px;">Salvar</button>
+
+        <!-- BOTÃO FLUTUANTE -->
+        <div class="fixed-action-btn">
+            <button id="main-fab" class="btn-floating btn-large blue darken-2 waves-effect waves-light shadow-3">
+                <i class="large material-icons">add</i>
+            </button>
+        </div>
+
+        <!-- NAVEGAÇÃO INFERIOR -->
+        <div class="bottom-nav z-depth-3">
+            <a href="#!" class="nav-item active" data-target="view-agenda" data-title="Agenda">
+                <i class="material-icons">event</i><span>Agenda</span>
+            </a>
+            <a href="#!" class="nav-item" data-target="view-todo" data-title="Tarefas">
+                <i class="material-icons">check_circle</i><span>Tarefas</span>
+            </a>
+            <a href="#!" class="nav-item" data-target="view-compras" data-title="Compras">
+                <i class="material-icons">shopping_cart</i><span>Compras</span>
+            </a>
+            <a href="#!" class="nav-item" data-target="view-memo" data-title="Notas">
+                <i class="material-icons">sticky_note_2</i><span>Notas</span>
+            </a>
+        </div>
+
+        <!-- MODAL DE ADIÇÃO -->
+        <div id="modal-add" class="modal bottom-sheet">
+            <div class="modal-content">
+                <h5 id="modal-title">Nova Tarefa</h5>
+                <div class="input-field" id="modal-date-wrapper" style="display: none;">
+                    <input id="modal-date" type="date">
+                    <label for="modal-date" class="active">Data</label>
+                </div>
+                <div class="input-field">
+                    <input id="modal-input" type="text" autocomplete="off">
+                    <label for="modal-input">O que deseja adicionar?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                <button id="btn-save" class="waves-effect waves-blue blue white-text btn-flat" style="border-radius: 20px; margin-right: 15px;">Salvar</button>
+            </div>
         </div>
     </div>
 
