@@ -1,18 +1,17 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, orderBy, serverTimestamp } 
 from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 // ====> ATENÇÃO: COLE AQUI SUAS CREDENCIAIS DO FIREBASE <====
 // Se deixar com "SUA_API_KEY", o aplicativo vai rodar visualmente, mas não vai salvar nada.
 const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_PROJETO.firebaseapp.com",
-    projectId: "SEU_PROJETO",
-    storageBucket: "SEU_PROJETO.appspot.com",
-    messagingSenderId: "ID",
-    appId: "APP_ID"
+  apiKey: "AIzaSyAe1MszEPOYDrK6p7D3ytYz72r82ovGfts",
+  authDomain: "famil-ia-51cd7.firebaseapp.com",
+  projectId: "famil-ia-51cd7",
+  storageBucket: "famil-ia-51cd7.firebasestorage.app",
+  messagingSenderId: "1063653704238",
+  appId: "1:1063653704238:web:92c692f63a9eb7378615bf"
 };
-
 // 1. Inicia o Banco de Dados com Proteção
 let db = null;
 try {
