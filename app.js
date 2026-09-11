@@ -31,9 +31,9 @@ M.Modal.init(document.querySelectorAll('.modal'));
 
 // COLOQUE OS MESMOS E-MAILS AQUI PARA O APP MOSTRAR O AVISO
 const emailsAutorizados = [
-    "SEU_EMAIL@gmail.com",
-    "EMAIL_ESPOSA@gmail.com",
-    "EMAIL_FILHO@gmail.com"
+    "josuemonteiro76@gmail.com",
+    "mirellacamilli@gmail.com",
+    "pcamilli03@gmail.com"
 ];
 
 onAuthStateChanged(auth, (user) => {
