@@ -8,26 +8,21 @@
     <meta name="theme-color" content="#ffffff">
     <title>Organizador Google</title>
     
-    <!-- Google Fonts & Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Top App Bar -->
     <nav class="white z-depth-1 top-nav">
         <div class="nav-wrapper">
             <a href="#" class="brand-logo center blue-text text-darken-2" id="app-title">Agenda</a>
         </div>
     </nav>
 
-    <!-- VIEWS -->
     <div id="views-container">
-        
-        <!-- TELA 1: AGENDA -->
+        <!-- AGENDA -->
         <div id="view-agenda" class="view active">
             <div class="center-align" style="padding: 10px 0;">
                 <h5 class="grey-text text-darken-2" id="mes-ano-agenda" style="margin: 0; font-weight: 500;">Semana</h5>
@@ -35,7 +30,7 @@
             <div id="agenda-container"></div>
         </div>
 
-        <!-- TELA 2: TO-DO -->
+        <!-- TO-DO -->
         <div id="view-todo" class="view">
             <ul class="collection with-header z-depth-1" style="margin: 10px; border: none; border-radius: 12px;">
                 <li class="collection-header"><h5>Pendentes</h5></li>
@@ -45,19 +40,18 @@
             </ul>
         </div>
 
-        <!-- TELA 3: COMPRAS -->
+        <!-- COMPRAS -->
         <div id="view-compras" class="view">
             <ul class="collection z-depth-1" id="compras-list" style="margin: 10px; border: none; border-radius: 12px;"></ul>
         </div>
 
-        <!-- TELA 4: MEMO -->
+        <!-- MEMO -->
         <div id="view-memo" class="view">
             <div class="row" id="memo-list" style="margin: 10px;"></div>
         </div>
-
     </div>
 
-    <!-- BOTÃO FLUTUANTE GLOBAL (Estilo Google) -->
+    <!-- BOTÃO FLUTUANTE -->
     <div class="fixed-action-btn">
         <button id="main-fab" class="btn-floating btn-large blue darken-2 waves-effect waves-light shadow-3">
             <i class="large material-icons">add</i>
@@ -80,13 +74,13 @@
         </a>
     </div>
 
-    <!-- MODAL DE ADIÇÃO (Substitui o prompt bloqueado) -->
+    <!-- MODAL DE ADIÇÃO -->
     <div id="modal-add" class="modal bottom-sheet">
         <div class="modal-content">
             <h5 id="modal-title">Nova Tarefa</h5>
             <div class="input-field" id="modal-date-wrapper" style="display: none;">
                 <input id="modal-date" type="date">
-                <label for="modal-date" class="active">Data do Evento</label>
+                <label for="modal-date" class="active">Data</label>
             </div>
             <div class="input-field">
                 <input id="modal-input" type="text" autocomplete="off">
@@ -99,7 +93,6 @@
         </div>
     </div>
 
-    <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="module" src="app.js"></script>
 </body>
