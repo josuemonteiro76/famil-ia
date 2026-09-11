@@ -1,0 +1,117 @@
+:root {
+    --bg: #f4f4f9;
+    --card: #ffffff;
+    --text: #333333;
+    --primary: #2c3e50;
+    --primary-hover: #1a252f;
+    --danger: #e74c3c;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+    margin: 0;
+}
+
+.container {
+    background: var(--card);
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    border-color: var(--primary);
+}
+
+button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #fdfdfd;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    transition: all 0.2s;
+}
+
+li:hover {
+    border-color: #e1e1e1;
+}
+
+li.concluida span {
+    text-decoration: line-through;
+    color: #a0a0a0;
+}
+
+li span {
+    flex: 1;
+    cursor: pointer;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.delete-btn {
+    background: none;
+    color: #ccc;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+}
+
+.delete-btn:hover {
+    background: #fee;
+    color: var(--danger);
+}
