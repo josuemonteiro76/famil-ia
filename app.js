@@ -4,7 +4,7 @@ from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 // ====> COLE AQUI SUAS CREDENCIAIS DO FIREBASE <====
 const firebaseConfig = {
-  apiKey: "AIzaSyAe1MszEPOYDrK6p7D3ytYz72r82ovGfts",
+  apiKey: "",
   authDomain: "famil-ia-51cd7.firebaseapp.com",
   projectId: "famil-ia-51cd7",
   storageBucket: "famil-ia-51cd7.firebasestorage.app",
